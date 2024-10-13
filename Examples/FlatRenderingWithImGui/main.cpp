@@ -74,10 +74,10 @@ void RegisterImGuiRender() {
 }
 
 void RegisterImGuiRecord() {
-    XRLib::EventSystem::RegisterListener<XRLib::Graphics::CommandBuffer&>(XRLib::Events::XRLIB_EVENT_RENDERER_PRE_SUBMITTING,
-        [](XRLib::Graphics::CommandBuffer& commandBuffer) {
-            ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer.GetCommandBuffer());
-        });
+    XRLib::EventSystem::Callback<XRLib::Graphics::CommandBuffer&> callback = [](XRLib::Graphics::CommandBuffer& commandBuffer){
+    ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer.GetCommandBuffer());
+    };
+    XRLib::EventSystem::RegisterListener<XRLib::Graphics::CommandBuffer&>(XRLib::Events::XRLIB_EVENT_RENDERER_PRE_SUBMITTING, callback);
 }
 
 void ImGuiCleanup() {
@@ -95,7 +95,7 @@ int main()
         .EnableValidationLayer();
 
     xrLib.SceneBackend()
-        .LoadMeshAsync({ "../resources/duck.glb", "",
+        .LoadMeshAsync({ "../resources/Duck.glb", "",
             {glm::vec3(0,0,0), glm::vec3(0,0,0), 0, glm::vec3(0.2,0.2,0.2)} })
         .WaitForAllMeshesToLoad();
     xrLib.Init(false);
