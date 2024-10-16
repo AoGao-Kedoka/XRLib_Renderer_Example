@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 
+
+set (VULKAN_DEPS Vulkan::Vulkan)
 find_package(Vulkan)
+if (NOT Vulkan_FOUND)
+    set (VULKAN_DEPS Vulkan::Headers Vulkan::Loader)
+endif()
+
 find_package(glfw3)
 FetchContent_Declare(
     imgui
@@ -24,7 +30,7 @@ target_include_directories(
         ${imgui_SOURCE_DIR}
         ${imgui_SOURCE_DIR}/backends
 )
-target_link_libraries(imgui PUBLIC glfw Vulkan::Vulkan)
+target_link_libraries(imgui PUBLIC glfw ${VULKAN_DEPS})
 
 add_executable(FlatRenderingWithImGui main.cpp)
 target_link_libraries(FlatRenderingWithImGui PRIVATE XRLib::XRLib imgui)

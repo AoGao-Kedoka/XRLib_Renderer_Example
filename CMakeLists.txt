@@ -8,7 +8,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include(FetchContent)
 FetchContent_Declare(
 	XRLib
-	GIT_REPOSITORY git@github.com:AoGao-Kedoka/XRLib.git
+    SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../XRLib
+	# GIT_REPOSITORY git@github.com:AoGao-Kedoka/XRLib.git
 	GIT_TAG main
  )
 FetchContent_MakeAvailable(XRLib)
