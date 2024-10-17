@@ -96,7 +96,7 @@ int main()
 
     xrLib.SceneBackend()
         .LoadMeshAsync({ "../resources/Duck.glb", "",
-            {glm::vec3(0,0,0), glm::vec3(0,0,0), 0, glm::vec3(0.2,0.2,0.2)} })
+            {glm::vec3(0,-.5,0), glm::vec3(0,0,0), 0, glm::vec3(0.2,0.2,0.2)} })
         .WaitForAllMeshesToLoad();
     xrLib.Init(false);
     InitImGui();
