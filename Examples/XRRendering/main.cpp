@@ -14,8 +14,6 @@ int main()
     xrLib.SceneBackend()
         .LoadMeshAsync({ "../resources/Duck.glb", "",
             {glm::vec3(0,1,0), glm::vec3(0,0,0), 0, glm::vec3(0.2,0.2,0.2)} })
-        .LoadMeshAsync({ "../resources/viking_room.obj", "../resources/viking_room.png",
-            {glm::vec3(-0.5,0,0), glm::vec3(0,0,0), 0, glm::vec3(0.2,0.2,0.2)} })
         .LoadMeshAsync({ "../resources/leftHand.glb"}).AttachLeftControllerPose()
         .LoadMeshAsync({ "../resources/rightHand.glb"}).AttachRightControllerPose()
         .WaitForAllMeshesToLoad();

@@ -17,6 +17,7 @@ int main()
 
     XRLib::Scene::Mesh* avocadoPtr{ nullptr };
 
+    // load meshes
     xrLib.SceneBackend()
         .LoadMeshAsync({ "../resources/Duck.glb", "",
             {glm::vec3(-1,0,0), glm::vec3(0,1,0), -40, glm::vec3(0.2,0.2,0.2)} })
@@ -26,7 +27,17 @@ int main()
             {glm::vec3(2,0,0), glm::vec3(0,0,0), 0, glm::vec3(0.2, 0.2,0.2)} })
         .WaitForAllMeshesToLoad();
 
+    // update camera position
     xrLib.SceneBackend().CameraTransform().Translate(glm::vec3(0, -0.3, 0));
+
+    // add lights
+    Transform firstLightTransform;
+    Transform secondLightTransform;
+    secondLightTransform.Translate(glm::vec3(1, 0, 0));
+    xrLib.SceneBackend()
+        .AddLights({ firstLightTransform, glm::vec4(1.0f,1.0f,1.0f,1.0f), 0.5 })
+        .AddLights({ secondLightTransform, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0.5 });
+
 
     xrLib.Init(false);
     while (!xrLib.ShouldStop()) {
