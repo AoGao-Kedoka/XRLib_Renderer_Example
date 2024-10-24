@@ -74,10 +74,11 @@ void RegisterImGuiRender() {
 }
 
 void RegisterImGuiRecord() {
-    XRLib::EventSystem::Callback<XRLib::Graphics::CommandBuffer&> callback = [](XRLib::Graphics::CommandBuffer& commandBuffer){
-    ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer.GetCommandBuffer());
+    XRLib::EventSystem::Callback<int, XRLib::Graphics::CommandBuffer&> callback = [](int renderPassLeft, XRLib::Graphics::CommandBuffer& commandBuffer) {
+        if (renderPassLeft == 0)
+            ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), commandBuffer.GetCommandBuffer());
     };
-    XRLib::EventSystem::RegisterListener<XRLib::Graphics::CommandBuffer&>(XRLib::Events::XRLIB_EVENT_RENDERER_PRE_SUBMITTING, callback);
+    XRLib::EventSystem::RegisterListener<int, XRLib::Graphics::CommandBuffer&>(XRLib::Events::XRLIB_EVENT_RENDERER_PRE_SUBMITTING, callback);
 }
 
 void ImGuiCleanup() {
