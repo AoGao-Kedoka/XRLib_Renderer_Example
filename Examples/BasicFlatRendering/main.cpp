@@ -38,12 +38,13 @@ int main()
     light.Translate(glm::vec3(0, 1, 0));
     xrLib.SceneBackend().AddLights({ light, glm::vec4(1.0f,1.0f,1.0f,1.0f), 0.5 });
 
-
     xrLib.Init(false);
+
     while (!xrLib.ShouldStop()) {
 
         // rotate the avacado
-        avocadoPtr->transform.Rotate(glm::vec3(0, 1, 0), 0.1f);
+        if (avocadoPtr)
+            avocadoPtr->transform.Rotate(glm::vec3(0, 1, 0), 0.1f);
 
         xrLib.Run();
     }

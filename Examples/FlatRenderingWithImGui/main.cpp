@@ -7,7 +7,7 @@ XRLib::XRLib        xrLib;
 VkDescriptorPool    imguiPool;
 
 void InitImGui() {
-    auto core = xrLib.RenderBackend().GetCore();
+    auto core = xrLib.GetVkCore();
     VkDescriptorPoolSize pool_sizes[] = {
     {VK_DESCRIPTOR_TYPE_SAMPLER, 1000},
     {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000},
@@ -57,7 +57,8 @@ void InitImGui() {
     init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
     init_info.Allocator = nullptr;
     init_info.CheckVkResultFn = nullptr;
-    init_info.RenderPass = xrLib.RenderBackend().RenderPasses[0]->GetRenderPass().GetVkRenderPass();
+    XRLib::Graphics::VkGraphicsRenderpass& pass = static_cast<XRLib::Graphics::VkGraphicsRenderpass&>(*xrLib.RenderBackend().RenderPasses[0]);
+    init_info.RenderPass = pass.GetRenderpass().GetVkRenderpass();
     ImGui_ImplVulkan_Init(&init_info);
 }
 
@@ -82,7 +83,7 @@ void RegisterImGuiRecord() {
 }
 
 void ImGuiCleanup() {
-    auto core = xrLib.RenderBackend().GetCore();
+    auto core = xrLib.GetVkCore();
     ImGui_ImplVulkan_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
@@ -93,13 +94,14 @@ int main()
 {
     xrLib.SetVersionNumber(1, 0, 0)
         .SetApplicationName("Demo application")
-        .EnableValidationLayer();
+        .EnableValidationLayer()
+        .Init(false);
 
     xrLib.SceneBackend()
         .LoadMeshAsync({ "../resources/Duck.glb", "",
             {glm::vec3(0,-.5,0), glm::vec3(0,0,0), 0, glm::vec3(0.2,0.2,0.2)} })
         .WaitForAllMeshesToLoad();
-    xrLib.Init(false);
+    xrLib.Prepare();
     InitImGui();
 
     RegisterImGuiRender();
