@@ -8,14 +8,14 @@ int main()
         .SetApplicationName("Demo application")
         .EnableValidationLayer();
 
-    Transform vikingRoomTransform;
+    XRLib::Transform vikingRoomTransform;
     vikingRoomTransform
         .Translate(glm::vec3(0, 0.1, -2))
         .Rotate(glm::vec3(1, 0, 0), -90)
         .Rotate(glm::vec3(0, 0, 1), -90)
         .Scale(glm::vec3(0.4, 0.4, 0.4));
 
-    Transform defaultTransform;
+    XRLib::Transform defaultTransform;
 
     XRLib::Scene::Mesh* avocadoPtr{ nullptr };
 
@@ -34,7 +34,7 @@ int main()
     xrLib.SceneBackend().CameraTransform().Translate(glm::vec3(0, -1.3, 0));
 
     // add lights
-    Transform light;
+    XRLib::Transform light;
     light.Translate(glm::vec3(0, 1, 0));
     xrLib.SceneBackend().AddLights({ light, glm::vec4(1.0f,1.0f,1.0f,1.0f), 0.5 });
 

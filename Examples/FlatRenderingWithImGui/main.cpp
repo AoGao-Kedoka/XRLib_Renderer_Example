@@ -7,7 +7,7 @@ XRLib::XRLib        xrLib;
 VkDescriptorPool    imguiPool;
 
 void InitImGui() {
-    auto core = xrLib.GetVkCore();
+    auto& core = xrLib.GetVkCore();
     VkDescriptorPoolSize pool_sizes[] = {
     {VK_DESCRIPTOR_TYPE_SAMPLER, 1000},
     {VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000},
@@ -27,7 +27,7 @@ void InitImGui() {
     pool_info.maxSets = 1000;
     pool_info.poolSizeCount = std::size(pool_sizes);
     pool_info.pPoolSizes = pool_sizes;
-    vkCreateDescriptorPool(core->GetRenderDevice(), &pool_info, nullptr, &imguiPool);
+    vkCreateDescriptorPool(core.GetRenderDevice(), &pool_info, nullptr, &imguiPool);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -45,10 +45,10 @@ void InitImGui() {
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForVulkan(XRLib::Graphics::WindowHandler::GetWindow(), true);
     ImGui_ImplVulkan_InitInfo init_info = {};
-    init_info.Instance = core->GetRenderInstance();
-    init_info.PhysicalDevice = core->GetRenderPhysicalDevice();
-    init_info.Device = core->GetRenderDevice();
-    init_info.Queue = core->GetGraphicsQueue();
+    init_info.Instance = core.GetRenderInstance();
+    init_info.PhysicalDevice = core.GetRenderPhysicalDevice();
+    init_info.Device = core.GetRenderDevice();
+    init_info.Queue = core.GetGraphicsQueue();
     init_info.PipelineCache = VK_NULL_HANDLE;
     init_info.DescriptorPool = imguiPool;
     init_info.Subpass = 0;
@@ -83,11 +83,11 @@ void RegisterImGuiRecord() {
 }
 
 void ImGuiCleanup() {
-    auto core = xrLib.GetVkCore();
+    auto& core = xrLib.GetVkCore();
     ImGui_ImplVulkan_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
-    vkDestroyDescriptorPool(core->GetRenderDevice(), imguiPool, nullptr);
+    vkDestroyDescriptorPool(core.GetRenderDevice(), imguiPool, nullptr);
 }
 
 int main()

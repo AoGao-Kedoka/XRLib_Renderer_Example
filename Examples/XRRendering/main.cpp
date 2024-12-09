@@ -11,14 +11,14 @@ int main()
         //Replace this to your own path if non-default openxr runtime want to be used
         .SetCustomOpenXRRuntime("~/Tools/MetaXRSimulator/meta_openxr_simulator.json");
 
-    Transform vikingRoomTransform;
+    XRLib::Transform vikingRoomTransform;
     vikingRoomTransform
         .Translate(glm::vec3(0, 0.1, -2))
         .Rotate(glm::vec3(1, 0, 0), -90)
         .Rotate(glm::vec3(0, 0, 1), -90)
         .Scale(glm::vec3(0.4, 0.4, 0.4));
 
-    Transform defaultTransform;
+    XRLib::Transform defaultTransform;
 
 
     // load meshes
