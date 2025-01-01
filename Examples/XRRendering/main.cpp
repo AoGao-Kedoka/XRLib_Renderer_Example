@@ -22,11 +22,21 @@ int main()
     XRLib::Transform defaultTransform;
 
 
+    XRLib::Entity* leftControllerPtr{ nullptr };
+    XRLib::Entity* rightControllerPtr{ nullptr };
+
     // load meshes
     xrLib.SceneBackend()
-        .LoadMeshAsync({ "../resources/plane.obj", "", defaultTransform })
-        .LoadMeshAsync({ "../resources/leftHand.glb", "", defaultTransform }).AttachLeftControllerPose()
-        .LoadMeshAsync({ "../resources/rightHand.glb", "", defaultTransform }).AttachRightControllerPose();
+        .LoadMeshAsync({ "../resources/Duck.glb", "",
+            {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.5,0.5,0.5)} })
+        .LoadMeshAsyncWithBinding({ "../resources/left.glb", "", defaultTransform }, leftControllerPtr).AttachEntityToLeftControllerPose(leftControllerPtr)
+        .LoadMeshAsyncWithBinding({ "../resources/right.glb", "", defaultTransform }, rightControllerPtr).AttachEntityToRightcontrollerPose(rightControllerPtr)
+        .LoadMeshAsync({ "../resources/sponza.glb", "", defaultTransform })
+        .WaitForAllMeshesToLoad();
+
+    XRLib::Transform light;
+    light.Translate(glm::vec3(0, 1, 0));
+    xrLib.SceneBackend().AddPointLights(light, glm::vec4(1.0f,1.0f,1.0f,1.0f), 0.5);
 
     xrLib.Init();
     while (!xrLib.ShouldStop()) {
