@@ -31,7 +31,7 @@ int main()
         .WaitForAllMeshesToLoad();
 
     // update camera position
-    xrLib.SceneBackend().MainCamera()->GetRelativeTransform().Translate(glm::vec3(0, -1.3, 0));
+    xrLib.SceneBackend().MainCamera()->GetLocalTransform().Translate(glm::vec3(0, -1.3, 0));
 
     // add lights
     XRLib::Transform lightTransform;
@@ -46,7 +46,7 @@ int main()
 
         // rotate the avacado
         if (avocadoPtr)
-            avocadoPtr->GetRelativeTransform().Rotate(glm::vec3(0, 1, 0), 0.1f);
+            avocadoPtr->GetLocalTransform().Rotate(glm::vec3(0, 1, 0), 0.1f);
 
         xrLib.Run();
     }
