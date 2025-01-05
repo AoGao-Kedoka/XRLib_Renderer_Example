@@ -25,13 +25,16 @@ int main()
     XRLib::Entity* leftControllerPtr{ nullptr };
     XRLib::Entity* rightControllerPtr{ nullptr };
 
-    // load meshes
     xrLib.SceneBackend()
-        .LoadMeshAsync({ "../resources/Duck.glb", "",
-            {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.5,0.5,0.5)} })
-        .LoadMeshAsyncWithBinding({ "../resources/left.glb", "", defaultTransform }, leftControllerPtr).AttachEntityToLeftControllerPose(leftControllerPtr)
-        .LoadMeshAsyncWithBinding({ "../resources/right.glb", "", defaultTransform }, rightControllerPtr).AttachEntityToRightcontrollerPose(rightControllerPtr)
-        .LoadMeshAsync({ "../resources/sponza.glb", "", defaultTransform })
+        .LoadMeshAsync({ .meshPath = "../resources/Duck.glb",
+                         .transform = {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.2,0.2,0.2)} })
+        .LoadMeshAsync({ .meshPath = "../resources/viking_room.obj",
+                         .transform = vikingRoomTransform,
+                         .diffuseTexturePath = "../resources/viking_room.png"})
+        .LoadMeshAsync({ .meshPath = "../resources/Suzanne.gltf",
+                         .transform = {glm::vec3(2,0.5,-2), glm::vec3(0,0,0), 0, glm::vec3(0.2, 0.2,0.2)},
+                         .diffuseTexturePath = "../resources/Suzanne_BaseColor.png"})
+        .LoadMeshAsync({.meshPath =  "../resources/sponza.glb", .transform = defaultTransform })
         .WaitForAllMeshesToLoad();
 
     XRLib::Transform light;

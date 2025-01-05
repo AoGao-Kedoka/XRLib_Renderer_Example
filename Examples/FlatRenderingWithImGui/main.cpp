@@ -96,10 +96,10 @@ int main()
         .SetApplicationName("Demo application")
         .EnableValidationLayer()
         .SceneBackend()
-        .LoadMeshAsync({ "../resources/Duck.glb", "", {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.2,0.2,0.2)} })
+        .LoadMeshAsync({ .meshPath = "../resources/Duck.glb", .transform = {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.2,0.2,0.2)} })
         .WaitForAllMeshesToLoad();
 
-    xrLib.Init();
+    xrLib.Init(false);
 
     InitImGui();
 

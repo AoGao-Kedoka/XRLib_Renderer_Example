@@ -21,13 +21,18 @@ int main()
 
     // load meshes
     xrLib.SceneBackend()
-        .LoadMeshAsync({ "../resources/Duck.glb", "",
-            {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.2,0.2,0.2)} })
-        .LoadMeshAsync({ "../resources/viking_room.obj", "../resources/viking_room.png", vikingRoomTransform })
-        .LoadMeshAsyncWithBinding({ "../resources/Avocado.glb", "", {glm::vec3(1,0,-2), glm::vec3(0,0.1,0), 0, glm::vec3(5,5,5)}}, avocadoPtr)
-        .LoadMeshAsync({ "../resources/Suzanne.gltf", "../resources/Suzanne_BaseColor.png",
-            {glm::vec3(2,0.5,-2), glm::vec3(0,0,0), 0, glm::vec3(0.2, 0.2,0.2)} })
-        .LoadMeshAsync({"../resources/sponza.glb", "", defaultTransform})
+        .LoadMeshAsync({ .meshPath = "../resources/Duck.glb",
+                         .transform = {glm::vec3(-1,0.1,-2), glm::vec3(0,1,0), -40, glm::vec3(0.2,0.2,0.2)} })
+        .LoadMeshAsync({ .meshPath = "../resources/viking_room.obj",
+                         .transform = vikingRoomTransform,
+                         .diffuseTexturePath = "../resources/viking_room.png" })
+        .LoadMeshAsyncWithBinding({ .meshPath = "../resources/Avocado.glb",
+                                    .transform = {glm::vec3(1,0,-2), glm::vec3(0,0.1,0), 0, glm::vec3(5,5,5)} },
+            avocadoPtr)
+        .LoadMeshAsync({ .meshPath = "../resources/Suzanne.gltf",
+                         .transform = {glm::vec3(2,0.5,-2), glm::vec3(0,0,0), 0, glm::vec3(0.2, 0.2,0.2)},
+                         .diffuseTexturePath = "../resources/Suzanne_BaseColor.png"})
+        .LoadMeshAsync({.meshPath =  "../resources/sponza.glb", .transform = defaultTransform })
         .WaitForAllMeshesToLoad();
 
     // update camera position
@@ -36,7 +41,7 @@ int main()
     // add lights
     XRLib::Transform lightTransform;
     lightTransform.Translate(glm::vec3(0, 1, 0));
-    xrLib.SceneBackend().AddPointLights(lightTransform, glm::vec4(1.0f,1.0f,1.0f,1.0f), 0.5, avocadoPtr);
+    xrLib.SceneBackend().AddPointLights(lightTransform, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f), 0.5, avocadoPtr);
 
     xrLib.Init(false);
 
