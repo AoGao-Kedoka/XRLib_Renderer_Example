@@ -18,6 +18,7 @@ FetchContent_MakeAvailable(XRLib)
 add_subdirectory(Examples/BasicFlatRendering)
 add_subdirectory(Examples/XRRendering)
 add_subdirectory(Examples/FlatRenderingWithImGui)
+add_subdirectory(Examples/CustomRenderPass)
 
 add_custom_target(copy_resources ALL
     COMMAND ${CMAKE_COMMAND} -E make_directory "${PROJECT_BINARY_DIR}/Examples/resources/"

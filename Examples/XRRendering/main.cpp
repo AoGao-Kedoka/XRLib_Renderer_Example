@@ -35,6 +35,8 @@ int main()
                          .transform = {glm::vec3(2,0.5,-2), glm::vec3(0,0,0), 0, glm::vec3(0.2, 0.2,0.2)},
                          .diffuseTexturePath = "../resources/Suzanne_BaseColor.png"})
         .LoadMeshAsync({.meshPath =  "../resources/sponza.glb", .transform = defaultTransform })
+        .LoadMeshAsyncWithBinding({.meshPath = "../resources/left.glb", .transform = defaultTransform}, leftControllerPtr).AttachEntityToLeftControllerPose(leftControllerPtr)
+        .LoadMeshAsyncWithBinding({.meshPath = "../resources/right.glb", .transform = defaultTransform}, rightControllerPtr).AttachEntityToRightcontrollerPose(rightControllerPtr)
         .WaitForAllMeshesToLoad();
 
     XRLib::Transform light;
