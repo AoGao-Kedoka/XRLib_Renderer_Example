@@ -2,6 +2,9 @@
 #include "XRLib.h"
 
 
+/**
+* Custom render behavior, simply override functions in vulkan standard rendering behavior
+*/
 class CustomPass : public XRLib::Graphics::VkStandardRB {
     public:
         CustomPass(XRLib::Graphics::VkCore& core, XRLib::Scene& scene, std::vector<std::unique_ptr<XRLib::Graphics::IGraphicsRenderpass>>* renderPasses, bool stereo);
@@ -15,8 +18,6 @@ class CustomPass : public XRLib::Graphics::VkStandardRB {
         void InitModelPositionBuffer();
         std::vector<std::shared_ptr<XRLib::Graphics::Image>> InitTexture();
 
-        // descriptor
-        std::unique_ptr<XRLib::Graphics::DescriptorSet> InitDescriptorSet();
     private:
         // buffers
         std::shared_ptr<XRLib::Graphics::Buffer> viewProjectBuffer;
@@ -24,6 +25,6 @@ class CustomPass : public XRLib::Graphics::VkStandardRB {
         std::vector<std::shared_ptr<XRLib::Graphics::Image>> textures;
 
         // descriptor layouts and render passes
-        std::string vertexShaderPath = "../Examples/CustomRenderPass/shaders/forward.vert";
-        std::string fragmentShaderPath = "../Examples/CustomRenderPass/shaders/forward.frag";
+        std::string vertexShaderPath = "./shaders/forward_no_light.vert";
+        std::string fragmentShaderPath = "./shaders/forward_no_light.frag";
 };

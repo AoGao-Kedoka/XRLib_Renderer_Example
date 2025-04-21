@@ -16,7 +16,6 @@ int main(){
     // prepare custom renderpass
     auto customRenderBehavior = std::make_unique<CustomPass>(xrLib.GetVkCore(), xrLib.SceneBackend(), &xrLib.RenderBackend().RenderPasses, false);
     xrLib.Init(false, std::move(customRenderBehavior));
-    //xrLib.Init(false);
 
     while (!xrLib.ShouldStop()){
         xrLib.Run();
