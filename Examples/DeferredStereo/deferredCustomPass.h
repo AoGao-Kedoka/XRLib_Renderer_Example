@@ -2,15 +2,20 @@
 #include "XRLib.h"
 
 
+/**
+* VR Deferred Rendering, basic example
+*/
 class DeferredCustomPass : public XRLib::Graphics::VkStandardRB
 {
 public:
-	DeferredCustomPass(XRLib::Graphics::VkCore& core, XRLib::Scene& scene, std::vector<std::unique_ptr<XRLib::Graphics::IGraphicsRenderpass>>* renderPasses, bool stereo);
+	DeferredCustomPass(XRLib::Graphics::VkCore& core, XRLib::Scene& scene,
+					   std::vector<std::unique_ptr<XRLib::Graphics::IGraphicsRenderpass>>* renderPasses, bool stereo);
 	~DeferredCustomPass() = default;
 
 	void Prepare() override;
 
-	void RecordPass(XRLib::Graphics::CommandBuffer& commandBuffer, XRLib::Graphics::VkGraphicsRenderpass* currentPass, uint8_t currentPassIndex, uint32_t& imageIndex) override;
+	void RecordPass(XRLib::Graphics::CommandBuffer& commandBuffer, XRLib::Graphics::VkGraphicsRenderpass* currentPass, uint8_t currentPassIndex,
+					uint32_t& imageIndex) override;
 
 private:
 	// render targets

@@ -1,8 +1,10 @@
 #version 450
 #extension GL_ARB_separate_shader_objects : enable
-layout(set = 0, binding = 0) uniform ViewProj{
-    mat4 view;
-    mat4 proj;
+#extension GL_EXT_multiview : enable
+
+layout(set = 0,binding = 0) uniform ViewProj{
+    mat4 view[2];
+    mat4 proj[2];
 } vp;
 
 layout(set = 0, binding = 1) readonly buffer ModelMatrices {
@@ -24,10 +26,10 @@ layout(location = 3) out vec3 cameraPos;
 
 void main() {
     vec4 worldPos = models[modelIndex] * vec4(inPosition, 1.0);
-    gl_Position = vp.proj * vp.view * worldPos;
+    gl_Position = vp.proj[gl_ViewIndex] * vp.view[gl_ViewIndex] * worldPos;
     mat3 normalMatrix = transpose(inverse(mat3(models[modelIndex])));
     fragNormal = normalize(normalMatrix * inNormal);
     fragTexCoord = inTexCoord;
     fragWorldPos = worldPos.xyz;
-    cameraPos = -vec3(vp.view[3]);
+    cameraPos = -vec3(vp.view[gl_ViewIndex][3]);
 }

@@ -2,7 +2,6 @@
 #extension GL_ARB_separate_shader_objects : enable
 #extension GL_EXT_multiview : enable
 #extension GL_EXT_nonuniform_qualifier: enable
-#extension GL_EXT_debug_printf : enable
 
 struct Light {
     mat4 transform;
@@ -18,12 +17,12 @@ layout(set = 0, binding = 1) readonly buffer Lights {
     Light lights[];
 };
 
-layout(set = 0, binding = 2) uniform ViewProj{
-    mat4 view;
-    mat4 proj;
+layout(set = 0,binding = 2) uniform ViewProj{
+    mat4 view[2];
+    mat4 proj[2];
 } vp;
 
-layout(set = 0, binding = 3) uniform sampler2D gBuffers[];
+layout(set = 0, binding = 3) uniform sampler2DArray gBuffers[];
 
 layout(location = 0) in vec2 fragTexCoord;
 
@@ -59,16 +58,16 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0) {
 }
 
 void main() {
-    vec3 cameraPos = -vec3(vp.view[3]);
-    vec3 worldPos = texture(gBuffers[0], fragTexCoord).rgb;
-    vec3 albedo = texture(gBuffers[1], fragTexCoord).rgb;
-    vec3 normal = texture(gBuffers[2], fragTexCoord).rgb;
+    vec3 cameraPos = -vec3(vp.view[gl_ViewIndex][3]);
+    vec3 worldPos = texture(gBuffers[0], vec3(fragTexCoord, gl_ViewIndex)).rgb;
+    vec3 albedo = texture(gBuffers[1], vec3(fragTexCoord, gl_ViewIndex)).rgb;
+    vec3 normal = texture(gBuffers[2], vec3(fragTexCoord, gl_ViewIndex)).rgb;
 
-    float ao = texture(gBuffers[3], fragTexCoord).r;
-    float metallic = texture(gBuffers[3], fragTexCoord).b;
-    float roughness = texture(gBuffers[3], fragTexCoord).g;
+    float ao = texture(gBuffers[3], vec3(fragTexCoord, gl_ViewIndex)).r;
+    float metallic = texture(gBuffers[3], vec3(fragTexCoord, gl_ViewIndex)).b;
+    float roughness = texture(gBuffers[3], vec3(fragTexCoord, gl_ViewIndex)).g;
 
-    vec3 emissive = texture(gBuffers[4], fragTexCoord).rgb;
+    vec3 emissive = texture(gBuffers[4], vec3(fragTexCoord, gl_ViewIndex)).rgb;
 
     vec3 N = normalize(normal);
     vec3 V = normalize(cameraPos - worldPos);
